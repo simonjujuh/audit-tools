@@ -13,9 +13,12 @@ vim engagements.conf
 make
 ```
 
-## Scenarios
+## Use cases
 ### Workspace creation
 ```bash
 wsnew.py 202309_client_audit # Create a new workspace named 202309_client_audit in the engagement directories
 wsnew.py --link ~/audit 202309_client_audit # Same as above, and create a symlink to the new engagement
 ```
+
+### Worskapce archive and encryption
+...
