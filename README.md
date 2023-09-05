@@ -15,8 +15,11 @@ Then **edit the generated configuration file**.
 # Create a new workspace named 202309_client_audit
 ./scripts/audit-new.py 202309_client_audit
 
-# Same as above, and create a symlink to the new engagement
+# Create a symlink to the new engagement
 ./scripts/audit-new.py --link ~/audit 202309_client_audit
+
+# Create a new project based on a template from config file
+./scripts/audit-new.py --template pentest ~/audit 202309_client_audit
 ```
 
 ### Audit worskapce archive and encryption
