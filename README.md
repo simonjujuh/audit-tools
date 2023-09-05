@@ -12,14 +12,12 @@ Then **edit the generated configuration file**.
 ## Use cases
 ### Audit workspace creation
 ```bash
-# Create a new workspace named 202309_client_audit
-./scripts/audit-new.py 202309_client_audit
-
-# Create a symlink to the new engagement
-./scripts/audit-new.py --link ~/audit 202309_client_audit
-
-# Create a new project based on a template from config file
-./scripts/audit-new.py --template pentest ~/audit 202309_client_audit
+# Create a new audit project
+./scripts/audit-new.py project_name
+# Create a new audit project with symlink to project
+./scripts/audit-new.py --link ~/audit project_name
+# Create a new audit project with a template directory tree
+./scripts/audit-new.py --template pentest project_name
 ```
 
 ### Audit worskapce archive and encryption
