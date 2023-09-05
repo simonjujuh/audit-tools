@@ -2,23 +2,22 @@
 A set of useful tools dedicated to manage your pentest engagements more easily.
 
 ## Installation
-Add you new configuration
+Run the installation script
 ```bash
-# Copy the sample configuration file
-cp engagements.conf.sample engagements.conf
-# Edit your configuration based on your needs
-vim engagements.conf
-...
-# Run the installation
-make
+python3 install.py
 ```
+
+Then **edit the generated configuration file**.
 
 ## Use cases
-### Workspace creation
+### Audit workspace creation
 ```bash
-wsnew.py 202309_client_audit # Create a new workspace named 202309_client_audit in the engagement directories
-wsnew.py --link ~/audit 202309_client_audit # Same as above, and create a symlink to the new engagement
+# Create a new workspace named 202309_client_audit
+./scripts/audit-new.py 202309_client_audit
+
+# Same as above, and create a symlink to the new engagement
+./scripts/audit-new.py --link ~/audit 202309_client_audit
 ```
 
-### Worskapce archive and encryption
+### Audit worskapce archive and encryption
 ...
