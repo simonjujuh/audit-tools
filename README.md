@@ -4,6 +4,7 @@ A set of useful tools dedicated to manage your pentest engagements more easily.
 ## Installation
 Run the installation script
 ```bash
+pip3 install -r requirements.txt
 python3 install.py
 ```
 
@@ -21,4 +22,9 @@ Then **edit the generated configuration file**.
 ```
 
 ### Audit worskapce archive and encryption
-...
+```bash
+# Create a 7z archive in the projects base directory
+./scripts/audit-archive.py /path/to/project_1 ../path/to/project_2
+# Create a 7z encrypted archive; password in stored in your configured keepass DB
+./scripts/audit-new.py --encrypt /path/to/project_1
+```
