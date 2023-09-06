@@ -22,3 +22,9 @@ Then **edit the generated configuration file**.
 
 ### Audit worskapce archive and encryption
 ...
+
+### Useful aliases
+```bash
+alias anew='/path/to/scripts/audit-new.py'
+alias aarch='/path/to/scripts/audit-archive.py'
+```
