@@ -27,4 +27,6 @@ Then **edit the generated configuration file**.
 ./scripts/audit-archive.py /path/to/project_1 ../path/to/project_2
 # Create a 7z encrypted archive; password in stored in your configured keepass DB
 ./scripts/audit-new.py --encrypt /path/to/project_1
+# Same as above but delete the project directory
+./scripts/audit-new.py --encrypt --delete-directory /path/to/project_1
 ```
