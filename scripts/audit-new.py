@@ -69,15 +69,6 @@ def main():
 
     args = parser.parse_args()
 
-    # Create the audit directory
-    try:
-        project_path = os.path.join(config['projects_dir'], args.name)
-        pathlib.Path(project_path).mkdir(parents=True)
-        print(f"[+] Directory {project_path} created successfully")
-    except Exception as e:
-        print(e)
-        return 1
-
     # --template option is set
     if args.template:
         # Check if submitted template exists
@@ -90,9 +81,16 @@ def main():
             print(f"    - {dir_str} created successfully")
         else:
             print(f"[!] Unknown template: {args.template} - delete previously created directories")
-            # Delete the project because use might want to reuse same names
-            pathlib.Path(project_path).rmdir()
             sys.exit(1)
+
+    # Create the audit directory
+    try:
+        project_path = os.path.join(config['projects_dir'], args.name)
+        pathlib.Path(project_path).mkdir(parents=True)
+        print(f"[+] Directory {project_path} created successfully")
+    except Exception as e:
+        print(e)
+        return 1
 
     # --link option is set
     if args.link:

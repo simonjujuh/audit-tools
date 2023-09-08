@@ -30,3 +30,9 @@ Then **edit the generated configuration file**.
 # Same as above but delete the project directory
 ./scripts/audit-new.py --encrypt --delete-directory /path/to/project_1
 ```
+
+### Useful aliases
+```bash
+alias anew='/path/to/scripts/audit-new.py'
+alias aarch='/path/to/scripts/audit-archive.py'
+```
