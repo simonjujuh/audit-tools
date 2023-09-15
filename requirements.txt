@@ -1,2 +1,2 @@
-py7zr
-pykeepass
+py7zr>=0.20.6
+pykeepass>=4.0.6

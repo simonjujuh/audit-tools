@@ -231,11 +231,12 @@ def main():
             else:
                 archive_success = True
 
-        if archive_success and args.delete_directory:
-            print_info(f"Deleted source directory '{project_path.name}'")
-            shutil.rmtree(project_path)
-
-        print_success(f"Archive created: {archive_file_fullpath}")
+        if archive_success:
+            if args.delete_directory:
+                print_info(f"Deleted source directory '{project_path.name}'")
+                shutil.rmtree(project_path)
+            
+            print_success(f"Archive created: {archive_file_fullpath}")
 
 
 if __name__ == '__main__':
