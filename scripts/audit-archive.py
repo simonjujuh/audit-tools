@@ -197,10 +197,7 @@ def main():
         with py7zr.SevenZipFile(archive_file_fullpath,
                                 'w',
                                 password=archive_password) as archive:
-            # Get all files from the project
-            for file_path in project_path.rglob('*'):
-                if file_path.is_file():
-                    archive.write(file_path)
+            archive.writeall(project_path, pathlib.Path(project_path).name)
 
         if args.encrypt:
             # Search the entry in keepass
@@ -230,6 +227,8 @@ def main():
                 archive_file_fullpath.unlink()
             else:
                 archive_success = True
+        else:
+            archive_success = True
 
         if archive_success:
             if args.delete_directory:
