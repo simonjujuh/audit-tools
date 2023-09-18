@@ -66,9 +66,9 @@ def main():
     parser.add_argument('-l', '--link', action='store',
                         help="Create a symlink to the newly created project")
     parser.add_argument('-t', '--template', action='store',
-                        help=f"Choose a directory structure for the project, "
-                        f"based on templates "
-                        f"(available are:  {', '.join(available_templates)})")
+                        choices=available_templates,
+                        help="Choose a directory structure for the project, "
+                        "based on templates")
     parser.add_argument('name', help="The audit project's name")
 
     args = parser.parse_args()
