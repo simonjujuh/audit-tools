@@ -44,6 +44,16 @@ def print_warning(message):
     print(f"{bcolor.BOLD}{bcolor.YELLOW}[!]{bcolor.END} {message}")
 
 
+def user_prompt(message):
+    return input(f"{bcolor.BOLD}{bcolor.PURPLE}[~]{bcolor.END} {message}")
+
+
+def user_prompt_password(message):
+    return getpass.getpass(
+        f"{bcolor.BOLD}{bcolor.PURPLE}[~]{bcolor.END} {message}"
+        )
+
+
 def load_config(file_path):
     """Load the configuration from `file_path`"""
 
@@ -87,8 +97,7 @@ def load_config(file_path):
 
 def open_kdbx(keepass_db, keepass_key=None):
     # 0. Prompt for password
-    prompt = f"{bcolor.BOLD}{bcolor.PURPLE}[~]{bcolor.END} Enter your keepass password: "
-    password = getpass.getpass(prompt)
+    password = user_prompt_password("Enter your keepass password: ")
 
     # 1. Check if the keepass db is a real file
     if keepass_db.is_file():
@@ -110,6 +119,21 @@ def open_kdbx(keepass_db, keepass_key=None):
     else:
         print(f"[!] Keepass Database '{keepass_db}' not found")
         sys.exit(1)
+
+
+def get_directory_size(directory):
+    """Get the size in bytes of a directory"""
+    # Store the total size
+    total_size = 0
+
+    # For each file the directory, add its size to the
+    # total size
+    for file_path in directory.rglob('*'):
+        if file_path.is_file():
+            total_size += file_path.stat().st_size
+
+    # return the total size
+    return total_size
 
 
 def main():
@@ -175,6 +199,21 @@ def main():
             print_error(f"Error: {e}")
             continue
 
+        # Get the size in bytes, then convert it in gigabytes
+        size_in_bytes = get_directory_size(project_path)
+        size_in_gb = size_in_bytes / (1024 * 1024 * 1024)
+
+        # If the directory size is bigger than 2GB, warn the user
+        if size_in_gb > 2.0:
+            print_warning(f"The size of directory '{project_path.name}' "
+                          f"is approximately {size_in_gb:.2f} GB")
+
+            # Prompt if user wants to continue with this directory size
+            user_choice = user_prompt("Do you want to continue? (yes/no): ")
+            if not user_choice.lower().startswith('y'):
+                print_info(f"Archiving of project {project_path.name} aborted")
+                continue
+
         # Define the name of the output 7z archive file
         # projects base directory / basename of the project_path + 7z
         archive_basename = pathlib.Path(project_path).with_suffix('.7z').name
@@ -234,7 +273,7 @@ def main():
             if args.delete_directory:
                 print_info(f"Deleted source directory '{project_path.name}'")
                 shutil.rmtree(project_path)
-            
+
             print_success(f"Archive created: {archive_file_fullpath}")
 
 

@@ -22,29 +22,31 @@ def load_config(file_path):
     # Check if the configuration file exists
     if not file_path.exists():
         print(f"[-] Unable to find config file {file_path}")
-        print(f"[*] Please run the `install.py` script in this project")
+        print("[*] Please run the `install.py` script in this project")
         sys.exit(1)
-    
+
     # Create the config parser object
     config = configparser.ConfigParser()
-    
+
     try:
         # Read and load the configuration
         config.read(file_path)
     except Exception as e:
         print(f"[-] Error reading configuration file: {e}")
         sys.exit(1)
-    
+
     # Load the available projects templates
     templates = {}
     for template_name in config['templates']:
         template_dirtree_str = config['templates'][template_name]
-        template_dirtree_lst = [x.strip() for x in template_dirtree_str.split(',')]
+        template_dirtree_lst = [x.strip() for x
+                                in template_dirtree_str.split(',')]
         templates.update({template_name: template_dirtree_lst})
 
     # Define the configuration dictionnary to retun
     config = {
-        "projects_dir": pathlib.Path(config.get('audits', 'directory')).expanduser(),
+        "projects_dir": pathlib.Path(
+            config.get('audits', 'directory')).expanduser(),
         "templates": templates,
     }
 
@@ -53,21 +55,25 @@ def load_config(file_path):
 
 def main():
     """Main function"""
-    
+
     # Load the configuration from file
     config = load_config('~/.local/share/audit-tools/config.ini')
+    available_templates = list(config['templates'].keys())
 
     # Command line parsing
     parser = argparse.ArgumentParser()
-    
-    parser.add_argument('-l', '--link', action='store', 
-        help="Create a symlink to the newly created project")
+
+    parser.add_argument('-l', '--link', action='store',
+                        help="Create a symlink to the newly created project")
     parser.add_argument('-t', '--template', action='store',
-        help=f"Choose a directory structure for the project, \
-        based on templates (available are: {list(config['templates'].keys())})")
+                        help=f"Choose a directory structure for the project, "
+                        f"based on templates "
+                        f"(available are:  {', '.join(available_templates)})")
     parser.add_argument('name', help="The audit project's name")
 
     args = parser.parse_args()
+
+    project_path = os.path.join(config['projects_dir'], args.name)
 
     # --template option is set
     if args.template:
@@ -80,12 +86,12 @@ def main():
             dir_str = ",".join(config['templates'][args.template])
             print(f"    - {dir_str} created successfully")
         else:
-            print(f"[!] Unknown template: {args.template} - delete previously created directories")
+            print(f"[!] Unknown template: {args.template} - "
+                  "deleting previously created directories")
             sys.exit(1)
 
     # Create the audit directory
     try:
-        project_path = os.path.join(config['projects_dir'], args.name)
         pathlib.Path(project_path).mkdir(parents=True)
         print(f"[+] Directory {project_path} created successfully")
     except Exception as e:
@@ -98,7 +104,8 @@ def main():
         if pathlib.Path(args.link).exists():
             print(f"[!] Link '{args.link}' already exists")
         else:
-            pathlib.Path(args.link).symlink_to(project_path, target_is_directory=True)
+            pathlib.Path(args.link).symlink_to(project_path,
+                                               target_is_directory=True)
             print(f"[+] Link '{args.link}' created successfully")
 
 
